@@ -1,0 +1,6 @@
+- hosts : servers
+  roles :
+          - myapache
+- hosts : proxy
+  roles :
+          - myloadbalancer

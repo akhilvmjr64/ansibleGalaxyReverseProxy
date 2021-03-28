@@ -1,0 +1,34 @@
+---
+# tasks file for myloadbalancer
+- name : "configuring yum for all the hosts to install httpd, php and haproxy"
+  copy :
+    src : "yum.repo"
+    dest : "/etc/yum.repos.d/reverseproxy.repo"
+- name : "installing haproxy on proxy server"
+  package :
+    name : "haproxy"
+    state : "present"
+- name : "copying the haproxy configuration file to proxy server"
+  template :
+    src : "haproxy.cfg"
+    dest : "/etc/haproxy/haproxy.cfg"
+  notify : "restarting haproxy service"
+- name : "setting selinux to permissive mode"
+  shell : "setenforce 0"
+- name : "restarting firewall"
+  service :
+    name : "firewalld"
+    state : restarted
+- name : "killing the service running on {{proxy_port}} port"
+  shell : "kill `netstat -tnlp | grep :{{proxy_port}} | awk '{print $7}' | awk -F/ '{print $1}'`"
+  ignore_errors : yes
+- name : "starting haproxy service"
+  service :
+    name : "haproxy"
+    state : started
+- name : "changing firewall settings"
+  firewalld :
+    port : "{{proxy_port}}/tcp"
+    state : enabled
+    immediate : yes
+ 
