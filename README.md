@@ -171,4 +171,4 @@ To test the roles created above I have created `main.yml` file which looks as fo
 
 To run the playbook we need to use the command `ansible-playbook main.yml`
 
-## [You can find the article on the same here](https://burriakhilreddy.hashnode.dev/ansiblegalaxyreverseproxy)
+## [You can find the article on the same here](https://burriakhilreddy.hashnode.dev/reverseproxyansiblegalaxy)
